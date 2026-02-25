@@ -3,9 +3,14 @@ from .models import User, Team, Activity, Leaderboard, Workout
 
 
 class TeamSerializer(serializers.ModelSerializer):
+    member_count = serializers.SerializerMethodField()
+    
     class Meta:
         model = Team
-        fields = ['id', 'name', 'description', 'created_at', 'updated_at']
+        fields = ['id', 'name', 'description', 'member_count', 'created_at', 'updated_at']
+    
+    def get_member_count(self, obj):
+        return obj.members.count()
 
 
 class UserSerializer(serializers.ModelSerializer):
